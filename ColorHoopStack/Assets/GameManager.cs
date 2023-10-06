@@ -9,9 +9,9 @@ public class GameManager : MonoBehaviour
     Cember _Cember;
     public bool HaraketVar;
 
-    //bunlar sonra gelecegiz
-    public int HedefStandSayisi;
-    int TamamlananStandSayisi;
+   
+    public int HedefRenkSayisi;
+    int TamamlananRenkSayisi;
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 
                                 _Stand.BosOlanSoket++; //Cunku yeni bir tane cember koyduk ya yeniye. Simdi onun BosOlanSoket numarasini 1 artiriyorum ki. Yeni bisi gelirse o numaranin yerine gelicek (List icindeki siralanislarla alakali.(Stande tiklayip inspectordan incele daha rahat anlarsin.))
                                 _Stand._Cemberler.Add(SeciliObje);  //  *(YENISINE EKLE)*
-
+                                _Stand.CemberleriKontrolEt(); // Hepsi ayni renk oldu mu olmadi mi kontrol et ?
                                 //Sonra bu ikisini null yapiyorum ki asagidaki else kismi tekrardan calissin hani stand hangi cember gene o degerleri alip islemlere basliyalim diye.
                                 SeciliObje = null;
                                 SeciliStand = null;
@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
 
                             _Stand.BosOlanSoket++; //Cunku yeni bir tane cember koyduk ya yeniye. Simdi onun BosOlanSoket numarasini 1 artiriyorum ki. Yeni bisi gelirse o numaranin yerine gelicek (List icindeki siralanislarla alakali.(Stande tiklayip inspectordan incele daha rahat anlarsin.))
                             _Stand._Cemberler.Add(SeciliObje);  //  *(YENISINE EKLE)*
-
+                            _Stand.CemberleriKontrolEt(); // Hepsi ayni renk oldu mu olmadi mi kontrol et ?
                             //Sonra bu ikisini null yapiyorum ki asagidaki else kismi tekrardan calissin hani stand hangi cember gene o degerleri alip islemlere basliyalim diye.
                             SeciliObje = null;
                             SeciliStand = null;
@@ -114,6 +114,14 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
+    }
+
+    public void StandTamamlandi()
+    {
+        TamamlananRenkSayisi++;
+        if (TamamlananRenkSayisi == HedefRenkSayisi)
+            Debug.Log("KAZANDIN"); //Kazandin Paneli Cikicak.
 
     }
 }

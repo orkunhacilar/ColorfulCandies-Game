@@ -34,17 +34,67 @@ public class GameManager : MonoBehaviour
                     { //bir cemberi gonderme
 
                         Stand _Stand = hit.collider.GetComponent<Stand>(); // Yeni secmis oldugum standi aliyorum.
-                        SeciliStand.GetComponent<Stand>().SoketDegistirmeIslemleri(SeciliObje); //Bir cemberi baska yere yollarken mevcut standdan sil dedik.  *(ESKISINDEN SIL)*
 
-                        _Cember.HaraketEt("PozisyonDegistir", hit.collider.gameObject,_Stand.MusaitSoketiVer(),_Stand.HaraketPozisyonu);
+                        if(_Stand._Cemberler.Count != 4 && _Stand._Cemberler.Count != 0) // Bunu ekliyoruz cunku 4 tane dolu cemberli bir standa bir cember daha yolluyamam
+                        {
 
-                        
+                            if (_Cember.Renk == _Stand._Cemberler[^1].GetComponent<Cember>().Renk) // Sectigimi standin en ustundeki cember rengi ile gondermek istedigim cember rengi ayni mi ?
+                            {
 
-                        _Stand.BosOlanSoket++; //Cunku yeni bir tane cember koyduk ya yeniye. Simdi onun BosOlanSoket numarasini 1 artiriyorum ki. Yeni bisi gelirse o numaranin yerine gelicek (List icindeki siralanislarla alakali.(Stande tiklayip inspectordan incele daha rahat anlarsin.))
-                        _Stand._Cemberler.Add(SeciliObje);  //  *(YENISINE EKLE)*
+
+                                SeciliStand.GetComponent<Stand>().SoketDegistirmeIslemleri(SeciliObje); //Bir cemberi baska yere yollarken mevcut standdan sil dedik.  *(ESKISINDEN SIL)*
+
+                                _Cember.HaraketEt("PozisyonDegistir", hit.collider.gameObject, _Stand.MusaitSoketiVer(), _Stand.HaraketPozisyonu);
+
+
+
+                                _Stand.BosOlanSoket++; //Cunku yeni bir tane cember koyduk ya yeniye. Simdi onun BosOlanSoket numarasini 1 artiriyorum ki. Yeni bisi gelirse o numaranin yerine gelicek (List icindeki siralanislarla alakali.(Stande tiklayip inspectordan incele daha rahat anlarsin.))
+                                _Stand._Cemberler.Add(SeciliObje);  //  *(YENISINE EKLE)*
+
+                                //Sonra bu ikisini null yapiyorum ki asagidaki else kismi tekrardan calissin hani stand hangi cember gene o degerleri alip islemlere basliyalim diye.
+                                SeciliObje = null;
+                                SeciliStand = null;
+                            }
+                            else { // Eğer aynı renkte değillerse
+                                _Cember.HaraketEt("SoketeGeriGit");
+
+                                //Sonra bu ikisini null yapiyorum ki asagidaki else kismi tekrardan calissin hani stand hangi cember gene o degerleri alip islemlere basliyalim diye.
+                                SeciliObje = null;
+                                SeciliStand = null;
+                            }
+
+                        } else if (_Stand._Cemberler.Count == 0) // eger bos bir standa cember yollamak istersek
+                        {
+                            SeciliStand.GetComponent<Stand>().SoketDegistirmeIslemleri(SeciliObje); //Bir cemberi baska yere yollarken mevcut standdan sil dedik.  *(ESKISINDEN SIL)*
+
+                            _Cember.HaraketEt("PozisyonDegistir", hit.collider.gameObject, _Stand.MusaitSoketiVer(), _Stand.HaraketPozisyonu);
+
+
+
+                            _Stand.BosOlanSoket++; //Cunku yeni bir tane cember koyduk ya yeniye. Simdi onun BosOlanSoket numarasini 1 artiriyorum ki. Yeni bisi gelirse o numaranin yerine gelicek (List icindeki siralanislarla alakali.(Stande tiklayip inspectordan incele daha rahat anlarsin.))
+                            _Stand._Cemberler.Add(SeciliObje);  //  *(YENISINE EKLE)*
+
+                            //Sonra bu ikisini null yapiyorum ki asagidaki else kismi tekrardan calissin hani stand hangi cember gene o degerleri alip islemlere basliyalim diye.
+                            SeciliObje = null;
+                            SeciliStand = null;
+                        }
+                        else // e zaten stand full ise gondermek istedigim cemberimi geri koy yerine demek icin else ekliyoruz
+                        {
+                            _Cember.HaraketEt("SoketeGeriGit");
+
+                            //Sonra bu ikisini null yapiyorum ki asagidaki else kismi tekrardan calissin hani stand hangi cember gene o degerleri alip islemlere basliyalim diye.
+                            SeciliObje = null;
+                            SeciliStand = null;
+                        }
+                    }
+
+                       
+                    else if(SeciliStand == hit.collider.gameObject) //Secili standim ile yeni sectigim stand ayni ise. (Yani iki kere ayni standa basiyorsam)
+                    {
+                        _Cember.HaraketEt("SoketeGeriGit");
 
                         //Sonra bu ikisini null yapiyorum ki asagidaki else kismi tekrardan calissin hani stand hangi cember gene o degerleri alip islemlere basliyalim diye.
-                        SeciliObje = null;    
+                        SeciliObje = null;
                         SeciliStand = null;
                     }
                     else //KODLARDA ILK ONCE BU ASAMA CALISIYOR.

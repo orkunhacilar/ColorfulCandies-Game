@@ -6,7 +6,7 @@ public class Cember : MonoBehaviour
 {
 
     public GameObject _AitOlduguStand;
-    public GameObject _AitOlduguCemberSoketi; //Gidecegi yerdeki bos olan cember soketi diyebiliriz.
+    public GameObject _AitOlduguCemberSoketi; 
     public bool HaraketEdebilirmi;
     public string Renk;
     public GameManager _GameManager;
@@ -27,15 +27,12 @@ public class Cember : MonoBehaviour
                 break;
             case "PozisyonDegistir":
                 GidecegiStand = Stand;
-                _AitOlduguCemberSoketi = Soket;
+                _AitOlduguCemberSoketi = Soket;     // _AitOlduguCemberSoketi  --->  Gidecegi yerdeki bos olan cember soketi diyebiliriz.
                 HaraketPozisyonu = GidilecekObje;
                 PosDegistir = true;
                 break;
-            case "SoketeOtur":
-
-                break;
             case "SoketeGeriGit":
-
+                SoketeGeriGit = true;
                 break;
         }
     }
@@ -82,6 +79,18 @@ public class Cember : MonoBehaviour
                 {
                     _AitOlduguStand.GetComponent<Stand>()._Cemberler[^2].GetComponent<Cember>().HaraketEdebilirmi = false;  // sondan bir oncekini yani 4 varsa 3cunun haraket edebilirmisini false yap diyoruz. Cunku yeni bir tane sonuncumuz var
                 }
+                _GameManager.HaraketVar = false;
+            }
+        }
+
+        if (SoketeGeriGit)
+        {                                               //_AitOlduguCemberSoketi zaten kendi icinde bulundugu obje
+            transform.position = Vector3.Lerp(transform.position, _AitOlduguCemberSoketi.transform.position, .2f);
+            if (Vector3.Distance(transform.position, _AitOlduguCemberSoketi.transform.position) < .10) // aralarindaki mesafe bu kadar kaldiysa secildiyi false yap
+            {
+                transform.position = _AitOlduguCemberSoketi.transform.position;
+                SoketeGeriGit = false;
+                _GameManager.HaraketVar = false;
             }
         }
     }

@@ -69,6 +69,7 @@ public class Cember : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, _AitOlduguCemberSoketi.transform.position, .2f);
             if (Vector3.Distance(transform.position, _AitOlduguCemberSoketi.transform.position) < .10) // aralarindaki mesafe bu kadar kaldiysa secildiyi false yap
             {
+                _GameManager.sesler[1].Play();
                 transform.position = _AitOlduguCemberSoketi.transform.position;
                 
                 SoketOtur = false;
@@ -84,7 +85,10 @@ public class Cember : MonoBehaviour
         }
 
         if (SoketeGeriGit)
-        {                                               //_AitOlduguCemberSoketi zaten kendi icinde bulundugu obje
+        {
+            _GameManager.sesler[0].Play();
+
+            //_AitOlduguCemberSoketi zaten kendi icinde bulundugu obje
             transform.position = Vector3.Lerp(transform.position, _AitOlduguCemberSoketi.transform.position, .2f);
             if (Vector3.Distance(transform.position, _AitOlduguCemberSoketi.transform.position) < .10) // aralarindaki mesafe bu kadar kaldiysa secildiyi false yap
             {

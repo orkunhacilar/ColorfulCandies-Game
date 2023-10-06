@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class GameManager : MonoBehaviour
     GameObject SeciliStand;
     Cember _Cember;
     public bool HaraketVar;
+    public AudioSource[] sesler;
+    public GameObject KazandikEkrani;
 
    
     public int HedefRenkSayisi;
@@ -121,7 +124,20 @@ public class GameManager : MonoBehaviour
     {
         TamamlananRenkSayisi++;
         if (TamamlananRenkSayisi == HedefRenkSayisi)
+        {
             Debug.Log("KAZANDIN"); //Kazandin Paneli Cikicak.
+            KazandikEkrani.SetActive(true);
+            sesler[2].Play();
+            sesler[3].Stop();
+            Time.timeScale = 0;
+        }
+            
 
+    }
+
+    public void Restart()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
     }
 }
